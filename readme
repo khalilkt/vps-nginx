@@ -1,0 +1,23 @@
+## Create the certificat for the first time
+
+because the challenge files are not present the nginx will not start, at the same time to create the file you need the nginx to be started. Thats why first create a dummy certificate
+
+```
+mkdir -p ./certs/conf/live/khalilktiri.com
+
+openssl req -x509 -nodes -days 365 \
+-subj "/CN=khalilktiri.com" \
+-newkey rsa:2048 \
+-keyout ./certs/conf/live/khalilktiri.com/privkey.pem \
+-out ./certs/conf/live/khalilktiri.com/fullchain.pem
+```
+
+```
+docker compose run --rm certbot certonly \
+  --webroot \
+  --webroot-path=/var/www/certbot \
+  -d www.khalilktiri.com \
+  --email your-email@example.com \
+  --agree-tos \
+  --no-eff-email
+```
