@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  host-nginx:
+    image: nginx:latest
+    container_name: host_nginx
+    restart: always
+    network_mode: host
+    volumes:
+      - ./nginx.cert.conf:/etc/nginx/nginx.conf:ro
+      - ./certs/conf:/etc/letsencrypt:ro
+      - ./certs/www:/var/www/certbot:ro
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certs/conf:/etc/letsencrypt
+      - ./certs/www:/var/www/certbot
